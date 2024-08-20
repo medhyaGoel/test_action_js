@@ -8,7 +8,7 @@ inputs:
   api-token:
     description: "Crossfeed API Token"
     required: true
-  organization-id0:
+  organization-id:
     description: "Crossfeed Organization ID"
     required: false
   node-version:
@@ -66,8 +66,8 @@ runs:
                   "hipcheckResults": { 
                     "dummy": "dummy value"                                   
                   },
-                  "purl": "$purl",
-                  "orgId": "$org"
+                  "purl": $purl,
+                  "orgId": $org
                 }' \
             "${{ inputs.api-url }}/project"
         done
