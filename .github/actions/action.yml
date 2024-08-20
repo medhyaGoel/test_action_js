@@ -41,8 +41,10 @@ runs:
 
     - name: Extract PURLs
       run: |
-        purls=$(jq -r '.dependencies[].purl' sbom.json)
+        purls=$(jq -r '.components[].purl' sbom.json)
         echo "Extracted PURLs:"
+        echo $purls
+        echo "Trying again"
         echo "$purls" > purls.txt
         cat purls.txt
       shell: bash
