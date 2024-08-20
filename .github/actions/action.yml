@@ -48,7 +48,7 @@ runs:
         if [ -z "${{ inputs.organization-id }}" ]; then
           echo "No organization ID provided so creating organization."
           response=$(curl -X POST \
-            -H "Authorization: Bearer ${{ inputs.api-token }}" \
+            -H "Authorization: ${{ inputs.api-token }}" \
             -H "Content-Type: application/json" \
             -d '{
                   "name": "DummyOrg",
@@ -64,14 +64,13 @@ runs:
         while IFS= read -r purl; do
           echo "Sending PURL to Crossfeed API:"
           curl -X POST \
-            -H "Authorization: Bearer ${{ inputs.api-token }}" \
+            -H "Authorization: ${{ inputs.api-token }}" \
             -H "Content-Type: application/json" \
             -d '{
                   "url": "https://example.com/your-open-source-project",
                   "hipcheckResults": { 
-                    "dummy": "dummy value"                                   
+                    "purl": $purl                                   
                   },
-                  "purl": $purl,
                   "orgId": $org
                 }' \
             "${{ inputs.api-url }}/project"
