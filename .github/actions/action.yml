@@ -30,6 +30,10 @@ runs:
       run: npm install
       shell: bash
 
+    - name: Install sbom
+      run: npm install -g sbom
+      shell: bash
+
 
     - name: Generate SBOM
       run: npm sbom --sbom-format cyclonedx > sbom.json
