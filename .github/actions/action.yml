@@ -32,7 +32,7 @@ runs:
 
 
     - name: Generate SBOM
-      run: npx sbom > sbom.json
+      run: npm sbom --sbom-format cyclonedx > sbom.json
       shell: bash
 
     - name: Extract PURLs
