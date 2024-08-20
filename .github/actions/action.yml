@@ -28,9 +28,12 @@ runs:
 
     - name: Install dependencies
       run: npm install
+      shell: bash
+
 
     - name: Generate SBOM
       run: npm sbom --json > sbom.json
+      shell: bash
 
     - name: Extract PURLs
       run: |
@@ -38,6 +41,7 @@ runs:
         echo "Extracted PURLs:"
         echo "$purls" > purls.txt
         cat purls.txt
+      shell: bash
 
     - name: Send PURLs to Crossfeed API
       run: |
@@ -70,4 +74,5 @@ runs:
                   "orgId": $org
                 }' \
             "${{ inputs.api-url }}/project"
-        done
+        done < purls.txt
+      shell: bash

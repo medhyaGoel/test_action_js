@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run custom action
-        uses: ./.github/actions
+        uses: ./.github/actions/action.yml
         with:
           api-url: ${{ secrets.LOCALTUNNEL_URL }}
           api-token: ${{ secrets.API_TOKEN }}
