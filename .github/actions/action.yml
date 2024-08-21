@@ -46,7 +46,7 @@ runs:
       run: |
         purls=$(jq -r '.components[].purl' sbom.json)
         echo "Extracted PURLs:"
-        echo $purls
+        echo $purls > purls.txt
       shell: bash
 
     - name: Send PURLs to Crossfeed API
@@ -67,10 +67,10 @@ runs:
             -H 'sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"' \
             -H 'sec-ch-ua-mobile: ?0' \
             -H 'sec-ch-ua-platform: "Windows"' \
-            --data-raw '{"rootDomains":["cisa.gov"],"ipBlocks":["asdfskjh"],"name":"Testing5","stateName":"Arkansas","isPassive":false,"tags":[],"acronym":"HELLO5"}' \
+            --data-raw '{"rootDomains":["cisa.gov"],"ipBlocks":["asdfskjh"],"name":"Testing6","stateName":"Arkansas","isPassive":false,"tags":[],"acronym":"HELLO6"}' \
             "${{ inputs.api-url }}/organizations")
           echo "Here is the json response to creating an org: "
-          echo $response
+          echo "$response" | jq .
           org=$(echo $response | jq -r '.id')
         else
           org="${{ inputs.organization-id }}"
@@ -93,5 +93,6 @@ runs:
             -H 'sec-ch-ua-platform: "Windows"' \
             --data-raw '{"url": "$purl","hipcheckResults":{},"orgId": "$org" }' \
             "${{ inputs.api-url }}/projects"
-        done
+          echo "sent a request"
+        done < purls.txt
       shell: bash
