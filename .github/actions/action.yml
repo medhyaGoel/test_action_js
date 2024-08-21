@@ -57,15 +57,23 @@ runs:
         if [ -z "${{ inputs.organization-id }}" ]; then
           echo "No organization ID provided so creating organization."
           response=$(curl -X POST \
-            -H "Authorization: ${{ inputs.api-token }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-                  "name": "DummyOrg",
-                  "rootDomains": ["cisa.gov"],
-                  "tags": [{"name": "test"}]
-                }' \
-            "${{ inputs.api-url }}/organization")
-          org=$(echo $response | jq -r '.name')
+            -H 'Accept: application/json' \
+            -H 'Accept-Language: en-US,en;q=0.9' \
+            -H 'Authorization: ${{ inputs.api-token }}' \
+            -H 'Connection: keep-alive' \
+            -H 'Content-Type: application/json' \
+            -H 'Origin: ${{ inputs.api-url }}' \
+            -H 'Referer: ${{ inputs.api-url }}' \
+            -H 'Sec-Fetch-Dest: empty' \
+            -H 'Sec-Fetch-Mode: cors' \
+            -H 'Sec-Fetch-Site: same-site' \
+            -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36' \
+            -H 'sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"' \
+            -H 'sec-ch-ua-mobile: ?0' \
+            -H 'sec-ch-ua-platform: "Windows"' \
+            --data-raw '{"rootDomains":["cisa.gov"],"ipBlocks":["asdfskjh"],"name":"Testing4","stateName":"Arkansas","isPassive":false,"tags":[],"acronym":"HELLO4"}' \
+            "${{ inputs.api-url }}/organizations")
+          org=$(echo $response | jq -r '.id')
         else
           org="${{ inputs.organization-id }}"
         fi
@@ -73,15 +81,21 @@ runs:
         while IFS= read -r purl; do
           echo "Sending PURL to Crossfeed API:"
           curl -X POST \
-            -H "Authorization: ${{ inputs.api-token }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-                  "url": "https://example.com/your-open-source-project",
-                  "hipcheckResults": { 
-                    "purl": $purl                                   
-                  },
-                  "orgId": $org
-                }' \
-            "${{ inputs.api-url }}/project"
+            -H 'Accept: application/json' \
+            -H 'Accept-Language: en-US,en;q=0.9' \
+            -H 'Authorization: ${{ inputs.api-token }}' \
+            -H 'Connection: keep-alive' \
+            -H 'Content-Type: application/json' \
+            -H 'Origin: ${{ inputs.api-url }}' \
+            -H 'Referer: ${{ inputs.api-url }}' \
+            -H 'Sec-Fetch-Dest: empty' \
+            -H 'Sec-Fetch-Mode: cors' \
+            -H 'Sec-Fetch-Site: same-site' \
+            -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36' \
+            -H 'sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"' \
+            -H 'sec-ch-ua-mobile: ?0' \
+            -H 'sec-ch-ua-platform: "Windows"' \
+            --data-raw '{"url": "$purl","hipcheckResults":{},"orgId": "$id" }' \
+            "${{ inputs.api-url }}/projects")
         done < purls.txt
       shell: bash
