@@ -47,9 +47,6 @@ runs:
         purls=$(jq -r '.components[].purl' sbom.json)
         echo "Extracted PURLs:"
         echo $purls
-        echo "Trying again"
-        echo "$purls" > purls.txt
-        cat purls.txt
       shell: bash
 
     - name: Send PURLs to Crossfeed API
@@ -73,11 +70,12 @@ runs:
             -H 'sec-ch-ua-platform: "Windows"' \
             --data-raw '{"rootDomains":["cisa.gov"],"ipBlocks":["asdfskjh"],"name":"Testing4","stateName":"Arkansas","isPassive":false,"tags":[],"acronym":"HELLO4"}' \
             "${{ inputs.api-url }}/organizations")
+          echo "Here is the json response to creating an org: "
+          echo $response
           org=$(echo $response | jq -r '.id')
         else
           org="${{ inputs.organization-id }}"
         fi
-        echo $org
         while IFS= read -r purl; do
           echo "Sending PURL to Crossfeed API:"
           curl -X POST \
