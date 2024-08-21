@@ -92,6 +92,6 @@ runs:
             -H 'sec-ch-ua-mobile: ?0' \
             -H 'sec-ch-ua-platform: "Windows"' \
             --data-raw '{"url": "$purl","hipcheckResults":{},"orgId": "$org" }' \
-            "${{ inputs.api-url }}/projects")
+            "${{ inputs.api-url }}/projects"
         done < purls.txt
       shell: bash
