@@ -93,5 +93,5 @@ runs:
             -H 'sec-ch-ua-platform: "Windows"' \
             --data-raw '{"url": "$purl","hipcheckResults":{},"orgId": "$org" }' \
             "${{ inputs.api-url }}/projects"
-        done < purls.txt
+        done
       shell: bash
