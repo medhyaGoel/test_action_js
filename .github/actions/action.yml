@@ -74,7 +74,7 @@ runs:
           org="${{ inputs.organization-id }}"
         fi
         echo $org
-        while IFS= read -r purl; do
+        for purl in $(cat purls.txt); do
           echo "Sending PURL to Crossfeed API:"
           echo $purl
           curl -X POST \
@@ -94,5 +94,5 @@ runs:
             --data-raw '{"purl": "$purl", "hipcheckResults":{},"orgId": "$org" }' \
             "${{ inputs.api-url }}/projects"
           echo "sent a request"
-        done < purls.txt
+        done
       shell: bash
