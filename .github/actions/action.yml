@@ -73,6 +73,7 @@ runs:
         else
           org="${{ inputs.organization-id }}"
         fi
+        echo $org
         while IFS= read -r purl; do
           echo "Sending PURL to Crossfeed API:"
           curl -X POST \
@@ -89,7 +90,7 @@ runs:
             -H 'sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"' \
             -H 'sec-ch-ua-mobile: ?0' \
             -H 'sec-ch-ua-platform: "Windows"' \
-            --data-raw '{"url": "https://github.com/Ouckah/Summer2025-Internships","hipcheckResults":{"purl": "$purl"},"orgId": "$org" }' \
+            --data-raw '{"purl": "$purl", "hipcheckResults":{},"orgId": "$org" }' \
             "${{ inputs.api-url }}/projects"
           echo "sent a request"
         done < purls.txt
