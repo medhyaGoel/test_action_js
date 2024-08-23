@@ -91,7 +91,7 @@ runs:
             -H 'sec-ch-ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"' \
             -H 'sec-ch-ua-mobile: ?0' \
             -H 'sec-ch-ua-platform: "Windows"' \
-            --data-raw '{"purl": \"$purl\", "hipcheckResults":{}, "orgId": \"$org}\"' \
+            --data-raw '{"purl": \"$purl\", "hipcheckResults":{}, "orgId": \"$org\"}' \
             "${{ inputs.api-url }}/projects"
           echo "sent a request"
         done
