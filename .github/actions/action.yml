@@ -94,4 +94,5 @@ runs:
             --data-raw '{"purl": ${purl}, "hipcheckResults":{}, "orgId": ${org}}' \
             "${{ inputs.api-url }}/projects"
           echo "sent a request"
+        done
       shell: bash
